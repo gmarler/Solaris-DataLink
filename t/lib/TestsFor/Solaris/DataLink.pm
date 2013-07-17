@@ -1,6 +1,6 @@
 package TestsFor::Solaris::DataLink;
-
-use Test::Class::Moose parent => 'My::Test::Class::AutoUse';
+use Test::Class::Moose;
+with 'Test::Class::Moose::Role::AutoUse';
 
 sub test_constructor {
   my ($test, $report) = @_;
