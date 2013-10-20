@@ -34,5 +34,29 @@ sub test_datalink_class {
   }
 }
 
+sub test_datalink_state {
+  my ($test, $report) = @_;
+  my @valid_state = qw( up down unknown );
+  my @invalid_state = qw( broken misaligned transient );
+  my $dl_obj;
+
+  foreach my $state (@valid_state) {
+    $dl_obj = Solaris::DataLink->new(name => 'e1000g0',
+                                     class => 'phys',
+                                     state => $state);
+    isa_ok $dl_obj, $test->class_name,
+      "DataLink with state $state";
+  }
+
+  foreach my $state (@invalid_state) {
+    throws_ok { $dl_obj = Solaris::DataLink->new(name => 'e1000g0',
+                                                 class => 'phys',
+                                                 state => $state ) }
+      '/Attribute.+?does\snot\spass\sthe\stype\sconstraint/',
+      "bad DataLink state '$state'";
+  }
+}
+
+
 1;
 
