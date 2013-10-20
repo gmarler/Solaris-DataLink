@@ -1,5 +1,5 @@
 package Solaris::DataLink;
-
+# ABSTRACT: Represents Solaris 11 and later data links
 use Moose;
 use Moose::Util::TypeConstraints;
 
