@@ -30,7 +30,7 @@ sub test_datalink_class {
     throws_ok { $dl_obj = Solaris::DataLink->new(name => 'e1000g0',
                                                  class => $class) }
       '/Attribute.+?does\snot\spass\sthe\stype\sconstraint/',
-      "bad class '$class'";
+      "bad DataLink class '$class'";
   }
 }
 
