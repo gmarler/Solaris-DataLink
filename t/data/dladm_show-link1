@@ -1,0 +1,26 @@
+# Generated using:
+# $ dladm show-link -p -o link,class,mtu,state,over
+#
+e1000g1:phys:1500:unknown:
+e1000g0:phys:1500:unknown:
+igb2:phys:1500:unknown:
+igb3:phys:1500:unknown:
+igb4:phys:1500:unknown:
+igb1:phys:9000:up:
+e1000g2:phys:1500:unknown:
+igb0:phys:9000:up:
+e1000g3:phys:1500:unknown:
+igb5:phys:1500:unknown:
+ixgbe1:phys:1500:unknown:
+ixgbe3:phys:1500:unknown:
+usbecm2:phys:1500:up:
+ixgbe0:phys:1500:up:
+igb6:phys:1500:up:
+igb7:phys:1500:up:
+ixgbe2:phys:1500:up:
+nfs_switch0:etherstub:9000:unknown:
+nfs_sdvlib6:vnic:9000:unknown:nfs_switch0
+sdvlib6/nfs_sdvlib6:vnic:9000:unknown:nfs_switch0
+aggr1:aggr:9000:up:igb0 igb1
+sdvlib6/igb0:vnic:1500:up:igb6
+sdvlib6/aggr1:vnic:9000:up:aggr1

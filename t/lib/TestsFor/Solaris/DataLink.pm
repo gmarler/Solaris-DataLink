@@ -1,14 +1,53 @@
 package TestsFor::Solaris::DataLink;
+
+use Path::Class::File ();
+
 use Test::Class::Moose;
 with 'Test::Class::Moose::Role::AutoUse';
 
+# TODO:
+# test_datalink_usecase
+# test_datalink_properties
+# test_datalink_constructor
+#
 sub test_constructor {
   my ($test, $report) = @_;
 
-  my $datalink = Solaris::DataLink->new();
+  my $datalink = Solaris::DataLink->new(name => 'vnic0',
+                                        class => 'vnic');
 
   isa_ok $datalink, $test->class_name,
     'The object the constructor returns';
+}
+
+sub test_constructor_show_link {
+  my ($test, $report) = @_;
+
+  my $filepath =
+    Path::Class::File->new(__FILE__)->parent->parent->parent->parent
+                     ->file("data","dladm_show-link1")
+                     ->absolute->stringify;
+  
+  #  Test datafile should exist
+  ok( -f $filepath, "$filepath should exist");
+
+  my $ldata = IO::File->new($filepath,"<");
+
+  foreach my $line (<$ldata>) {
+    my %data;
+    chomp($line);
+    next if $line =~ m/^#/;
+    my $dl_obj = Solaris::DataLink->new("show-link" => $line);
+    my (@keys) = qw(name class mtu state over);
+    my @vals = split(/:/, $line, -1);
+    @data{@keys} = @vals;
+    my ($link_name) = $data{name};
+    isa_ok $dl_obj, $test->class_name,
+      "$link_name";
+    foreach my $key (@keys) {
+      eq_or_diff($data{$key}, $dl_obj->${key}, "show-link constructed data");
+    }
+  }
 }
 
 sub test_datalink_class {
