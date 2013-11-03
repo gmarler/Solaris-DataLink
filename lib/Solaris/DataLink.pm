@@ -66,6 +66,21 @@ around BUILDARGS => sub {
     delete $h{'show-link'};
     @h{@keys} = @vals;
   }
+  # Constructor had show-linkprop option passed in
+  if ($h{'show-linkprop'}) {
+    my (@keys) = qw(name property perm value default possible);
+    chomp($h{'show-linkprop'}); # Bye bye trailing newline
+    # NOTE: We're using a chunk-limit of -1 here, to ensure that we get all
+    #       trailing, possibly empty, fields.
+    my (@vals) = split(/:/, $h{'show-linkprop'}, -1);
+    delete $h{'show-linkprop'};
+    # TODO: The 'LINK' or 'NAME' should be identical to the one provided by the
+    # show-link property, if passed in.  We should probably validate that,
+    # rather than just overwrite it as we do currently, since both show-link and
+    # show-linkprop have it.
+    @h{@keys} = @vals;
+  }
+
   return $class->$orig( \%h );
 };  # NEED THE SEMICOLON HERE!!!
 
