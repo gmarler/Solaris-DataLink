@@ -5,6 +5,18 @@ use Data::Dumper;
 
 use Moose;
 use Moose::Util::TypeConstraints;
+with 'MooseX::Log::Log4perl';
+use namespace::autoclean;
+use Log::Log4perl qw(:easy);
+#BEGIN {
+#    Log::Log4perl->easy_init({
+#        level   => $DEBUG,
+#        file    => ">>/tmp/sc.log",
+#        layout  => '%d %p [%P] %l %m%n',
+#    });
+#};
+
+#has '+logger' => { traits => ['DoNotSerialize'] };
 
 has [ 'name' ]  => ( is  => 'ro', isa => 'Str', required => 1, );
 has [ 'zone' ]  => ( is  => 'ro', isa => 'Str', );
