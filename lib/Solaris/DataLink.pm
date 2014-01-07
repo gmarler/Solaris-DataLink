@@ -16,7 +16,7 @@ use Log::Log4perl qw(:easy);
 #    });
 #};
 
-#has '+logger' => { traits => ['DoNotSerialize'] };
+has '+logger'   => ( traits => ['DoNotSerialize'] );
 
 has [ 'name' ]  => ( is  => 'ro', isa => 'Str', required => 1, );
 has [ 'zone' ]  => ( is  => 'ro', isa => 'Str', );
@@ -77,6 +77,15 @@ around BUILDARGS => sub {
     my (@vals) = split(/:/, $h{'show-link'}, -1);
     delete $h{'show-link'};
     @h{@keys} = @vals;
+  } else {
+    my @cmd = qw(/sbin/dladm show-link -p -o link,class,mtu,state,over);
+    my $out = qx{@cmd};
+    my $status = $? >> 8;
+    if ($status != 0) {
+      die "Unable to run dladm show-link system-wide!";
+    }
+    # TODO: Parse link properties into Solaris::DataLink::Property instances,
+    #       should probably do in Solaris::DataLink::Property class, or a Role
   }
   # Constructor had show-linkprop option passed in
   if ($h{'show-linkprop'}) {
@@ -91,7 +100,13 @@ around BUILDARGS => sub {
     # rather than just overwrite it as we do currently, since both show-link and
     # show-linkprop have it.
     @h{@keys} = @vals;
+  } else {
+
   }
+
+  # TODO: datalink private properties
+  #       (per physical NIC device type from dladm show-phys)
+
 
   return $class->$orig( \%h );
 };  # NEED THE SEMICOLON HERE!!!

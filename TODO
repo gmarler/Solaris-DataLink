@@ -1,0 +1,11 @@
+- Solaris::DataLink::PrivateProperty::igb
+tx_copy_thresh                (read and write)
+tx_recycle_thresh             (read and write)
+tx_overload_thresh            (read and write)
+tx_resched_thresh             (read and write)
+rx_copy_thresh                (read and write)
+rx_limit_per_intr             (read and write)
+intr_throttling               (read and write)
+
+- Solaris::DataLink::PrivateProperty::ixgbe
+- Solaris::DataLink::PrivateProperty::nxge
