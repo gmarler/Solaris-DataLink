@@ -16,7 +16,7 @@ use Log::Log4perl qw(:easy);
 #    });
 #};
 
-has '+logger'   => ( traits => ['DoNotSerialize'] );
+#has '+logger'   => ( traits => ['DoNotSerialize'] );
 
 has [ 'name' ]  => ( is  => 'ro', isa => 'Str', required => 1, );
 has [ 'zone' ]  => ( is  => 'ro', isa => 'Str', );
@@ -78,7 +78,7 @@ around BUILDARGS => sub {
     delete $h{'show-link'};
     @h{@keys} = @vals;
   } else {
-    my @cmd = qw(/sbin/dladm show-link -p -o link,class,mtu,state,over);
+    my @cmd = (qw(/sbin/dladm show-link -p -o), q(link,class,mtu,state,over));
     my $out = qx{@cmd};
     my $status = $? >> 8;
     if ($status != 0) {
