@@ -65,10 +65,12 @@ around BUILDARGS => sub {
   my @params = @_;
 
   my %h = @params;
+  my $log = Log::Log4perl->get_logger();
 
   # TODO: Note conflicting constructor args and raise exception
   #
-  # Constructor had show-link option passed in
+  # Constructor had show-link option passed in/injected (usually for testing)
+  $log->info('CONSTRUCTOR: handling link');
   if ($h{'show-link'}) {
     my (@keys) = qw(name class mtu state over);
     chomp($h{'show-link'}); # Bye bye trailing newline
@@ -87,7 +89,14 @@ around BUILDARGS => sub {
     # TODO: Parse link properties into Solaris::DataLink::Property instances,
     #       should probably do in Solaris::DataLink::Property class, or a Role
   }
+
+  # TODO: datalink properties
+  # TODO: datalink private properties
+  #       (per physical NIC device type from dladm show-phys)
+  # TODO: 
+
   # Constructor had show-linkprop option passed in
+  $log->info('CONSTRUCTOR: handling link properties');
   if ($h{'show-linkprop'}) {
     my (@keys) = qw(name property perm value default possible);
     chomp($h{'show-linkprop'}); # Bye bye trailing newline
@@ -99,6 +108,7 @@ around BUILDARGS => sub {
     # show-link property, if passed in.  We should probably validate that,
     # rather than just overwrite it as we do currently, since both show-link and
     # show-linkprop have it.
+    # Probably best to do the above in the BUILD method
     @h{@keys} = @vals;
   } else {
 
@@ -106,7 +116,6 @@ around BUILDARGS => sub {
 
   # TODO: datalink private properties
   #       (per physical NIC device type from dladm show-phys)
-
 
   return $class->$orig( \%h );
 };  # NEED THE SEMICOLON HERE!!!
