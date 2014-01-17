@@ -15,7 +15,7 @@ has [ 'perm' ]  => ( is  => 'ro', isa => 'Solaris::DataLink::Property::Perm',
 has [ 'value' ]    => ( is  => 'rw', isa => 'Str', );
 has [ 'default' ]  => ( is  => 'ro', isa => 'Str', );
 # TODO: May want to make this an ArrayRef during construction from the raw data
-has [ 'possible' ] => ( is  => 'ro', isa => 'Str', );
+has [ 'possible' ] => ( is  => 'ro', isa => 'ArrayRef[Str]', );
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

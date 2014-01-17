@@ -53,7 +53,7 @@ sub test_constructor_show_link {
     Path::Class::File->new(__FILE__)->parent->parent->parent->parent
                      ->file("data","dladm_show-link1")
                      ->absolute->stringify;
-  
+
   #  Test datafile should exist
   ok( -f $filepath, "$filepath should exist");
 
