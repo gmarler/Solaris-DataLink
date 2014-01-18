@@ -39,7 +39,7 @@ sub test_startup {
 sub test_constructor {
   my ($test, $report) = @_;
 
-  my $datalink = Solaris::DataLink->new(name => 'vnic0',
+  my $datalink = $test->class_name->new(name => 'vnic0',
                                         class => 'vnic');
 
   isa_ok $datalink, $test->class_name,
@@ -63,7 +63,7 @@ sub test_constructor_show_link {
     my %data;
     chomp($line);
     next if $line =~ m/^#/;
-    my $dl_obj = Solaris::DataLink->new("show-link" => $line);
+    my $dl_obj = $test->class_name->new("show-link" => $line);
     my (@keys) = qw(name class mtu state over);
     my @vals = split(/:/, $line, -1);
     @data{@keys} = @vals;
